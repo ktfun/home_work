@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1483017491 source:f:\github\studentmanage\student_manage\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+

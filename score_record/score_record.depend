@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1483088307 source:f:\github\scorerecord\score_record\main.c
+	<stdio.h>
+	<stdlib.h>
+
