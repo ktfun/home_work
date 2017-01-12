@@ -7,9 +7,9 @@
 using namespace std;
 
 #define INFINITE  99999999
-#define MAX_TASK  5000
-#define MAX_ETIME 5001
-#define MAX_RTIME 51
+#define MAX_TASK  5000  // 任务个数
+#define MAX_ETIME 5001  // enter time
+#define MAX_RTIME 51  // 运行时间
 
 struct TASK
 {
@@ -191,7 +191,7 @@ void fcfs()
     {
         TASK *tmp = queue_pop(queue_head);
 
-        printf("%d \t %d \t %d \t %d \t %d \t %d\n", tmp->no, tmp->etime, tmp->wtime, tmp->stime, tmp->rtime, tmp->stime + tmp->rtime);
+        printf("%8d %8d %8d %8d %8d %8d\n", tmp->no, tmp->etime, tmp->wtime, tmp->stime, tmp->rtime, tmp->stime + tmp->rtime);
 
         free(tmp);
     }
@@ -290,7 +290,7 @@ void tsst()
     {
         TASK *tmp = queue_pop(queue_head);
 
-        printf("%d \t %d \t %d \t %d \t %d \t %d\n", tmp->no, tmp->etime, tmp->wtime, tmp->stime, tmp->rtime, tmp->stime + tmp->rtime);
+        printf("%8d %8d %8d %8d %8d %8d\n", tmp->no, tmp->etime, tmp->wtime, tmp->stime, tmp->rtime, tmp->stime + tmp->rtime);
 
         free(tmp);
     }
