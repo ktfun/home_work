@@ -8,25 +8,25 @@ using namespace std;
 
 #define INFINITE  99999999
 #define MAX_TASK  5000
-#define MAX_ETIME 5000
-#define MAX_RTIME 5000
+#define MAX_ETIME 5001
+#define MAX_RTIME 51
 
 struct TASK
 {
-    TASK *next;
-    int no;
+    TASK *next;  // 下一个结点
+    int no;  // 任务编号
     int etime;  // enter time
     int rtime;  // run time
     int wtime;  // wait time
     int stime;  // start time
-    int is_check;
+    int is_check;  // 入队列标识，1代表已经入队列，0代表未入队列
 };
 
 struct HEAD
 {
-    TASK *first;
-    TASK *end;
-    int count;
+    TASK *first;  // 第一给结点
+    TASK *end;  // 最后一个结点
+    int count;  // 结点数（不包括头结点）
 };
 
 HEAD *list_head = (HEAD*)malloc(sizeof(HEAD));  // 链表头
@@ -77,6 +77,7 @@ void queue_push(HEAD* head, TASK* tmp)
     head->count++;
 }
 
+// 随机生成任务
 void init()
 {
     srand(time(NULL));
@@ -90,8 +91,8 @@ void init()
     list_head->count = 0;
     for(i = 0; i < n; i++)
     {
-        int etime = rand() % MAX_ETIME;
-        int rtime = rand() % (MAX_RTIME - 5) + 5;
+        int etime = rand() % MAX_ETIME; // enter time
+        int rtime = rand() % (MAX_RTIME - 5) + 5;  // run time
         TASK *tmp = (TASK*)malloc(sizeof(TASK));
 
         memset(tmp, 0, sizeof(TASK));
@@ -111,10 +112,11 @@ void init()
             list_head->end->next = tmp;
             list_head->end = tmp;
         }
-        list_head->count++;
+        list_head->count++;  // 计数加一
     }
 }
 
+// 清理入队标志
 void clear_check()
 {
     TASK *ptr = list_head->first;
@@ -130,7 +132,7 @@ void clear_check()
 
 void fcfs()
 {
-    clear_check();
+    clear_check(); // 清理标记
     printf("<===先来先服务===>\n");
     HEAD *queue_head = (HEAD*)malloc(sizeof(HEAD));  //  队列
     int count = 0;
@@ -140,12 +142,14 @@ void fcfs()
 
     memset(queue_head, 0, sizeof(HEAD));
 
+    // 队列的个数等于链表的个数
     while(count != list_head->count)
     {
         int min = INFINITE;
         TASK* ptr = list_head->first;
         TASK *min_ptr = ptr;
 
+        // 找到etime最小的结点
         while(ptr != NULL)
         {
             if(!ptr->is_check && ptr->etime <= min)
@@ -160,6 +164,7 @@ void fcfs()
         min_ptr->is_check = 1;
         memcpy(new_task, min_ptr, sizeof(TASK));
 
+        // 计算stime和wtime
         if ( new_task->etime > now_time)
         {
             new_task->stime = new_task->etime;
@@ -199,7 +204,7 @@ void fcfs()
 // the shortest service time
 void tsst()
 {
-    clear_check();
+    clear_check(); // 清理标记
     printf("<===最短服务时间===>\n");
     HEAD *queue_head = (HEAD*)malloc(sizeof(HEAD));  //  队列
     int count = 0;
@@ -209,11 +214,12 @@ void tsst()
 
     memset(queue_head, 0, sizeof(HEAD));
 
+    // 队列的个数等于链表的个数
     while(count != list_head->count)
     {
         TASK* ptr = list_head->first;
         TASK *best_ptr = ptr;
-        int is_find = 0;
+        int is_find = 0; // 是否找到
         int tmin = INFINITE;
 
         // 在链表中尝试找到etime比now_time小的结点
